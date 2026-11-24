@@ -52,7 +52,7 @@ async function arcgisPost(path, data){
 async function loadMessages(){
   try{
     const where = `mission_id='${MISSION_ID.replaceAll("'","''")}'`;
-    const json = await arcgisPost("query",{where,outFields:"OBJECTID,mission_id,auteur,message,date_message,type_message",orderByFields:"date_message ASC, OBJECTID ASC",returnGeometry:"false",resultRecordCount:"500"});
+    const json = await arcgisPost("query",{where,outFields:"*",orderByFields:"OBJECTID ASC",returnGeometry:"false",resultRecordCount:"500"});
     const features = json.features || [];
     const signature = features.map(f=>`${f.attributes.OBJECTID}:${f.attributes.date_message}`).join("|");
     if(signature !== lastSignature){renderMessages(features);lastSignature=signature;}
