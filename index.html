@@ -50,37 +50,196 @@ async function arcgisPost(path, data){
 }
 
 async function loadMessages(){
-  try{
-    const where = `mission_id='${MISSION_ID.replaceAll("'","''")}'`;
-    const json = await arcgisPost("query",{where,outFields:"*",orderByFields:"OBJECTID ASC",returnGeometry:"false",resultRecordCount:"500"});
-    const features = json.features || [];
-    const signature = features.map(f=>`${f.attributes.OBJECTID}:${f.attributes.date_message}`).join("|");
-    if(signature !== lastSignature){renderMessages(features);lastSignature=signature;}
-  }catch(err){showStatus(`Lecture impossible : ${err.message}`,"error");}
+
+    try {
+
+        const where =
+            `Mission='${MISSION_ID.replaceAll("'","''")}'`;
+
+        const json = await arcgisPost("query", {
+            where: where,
+            outFields: "OBJECTID,Mission,Auteur,Message,GDH,Types",
+            orderByFields: "GDH ASC, OBJECTID ASC",
+            returnGeometry: "false",
+            resultRecordCount: "500"
+        });
+
+        const features = json.features || [];
+
+        const signature = features
+            .map(f =>
+                `${f.attributes.OBJECTID}:${f.attributes.GDH}`
+            )
+            .join("|");
+
+        if(signature !== lastSignature) {
+            renderMessages(features);
+            lastSignature = signature;
+        }
+
+    }
+    catch(err) {
+        showStatus(
+            `Lecture impossible : ${err.message}`,
+            "error"
+        );
+    }
 }
 
 function renderMessages(features){
-  const container=document.getElementById("messages");container.innerHTML="";
-  if(!features.length){container.innerHTML='<div class="system"><span>Aucun message dans ce canal</span></div>';return;}
-  for(const f of features){
-    const a=f.attributes||{}; const author=a.auteur||"SYSTÈME"; const type=(a.type_message||"NORMAL").toUpperCase();
-    if(type==="SYSTEME"){
-      const sys=document.createElement("div");sys.className="system";sys.innerHTML=`<span>${esc(a.message)}</span>`;container.appendChild(sys);continue;
+
+    const container =
+        document.getElementById("messages");
+
+    container.innerHTML = "";
+
+    if(!features.length){
+
+        container.innerHTML =
+            '<div class="system">' +
+            '<span>Aucun message dans ce canal</span>' +
+            '</div>';
+
+        return;
     }
-    const side=author==="CONVOI-01"?"convoi":"pc"; const alert=type==="ALERTE"?" alert":"";
-    const item=document.createElement("div");item.className=`message ${side}${alert}`;
-    item.innerHTML=`<div class="meta"><span class="sender">${esc(author)}</span><span>${formatTime(a.date_message)}</span></div><div class="bubble">${esc(a.message)}</div>`;
-    container.appendChild(item);
-  }
-  container.scrollTop=container.scrollHeight;
+
+    for(const f of features){
+
+        const a = f.attributes || {};
+
+        // Domaine Auteur
+        const author =
+            a.Auteur == 2
+                ? "CONVOI-01"
+                : "PC TRANSFERT";
+
+        // Domaine Types
+        const type = a.Types;
+
+        // SYSTEME = 3
+        if(type == 3){
+
+            const sys =
+                document.createElement("div");
+
+            sys.className = "system";
+
+            sys.innerHTML =
+                `<span>${esc(a.Message)}</span>`;
+
+            container.appendChild(sys);
+
+            continue;
+        }
+
+        const side =
+            a.Auteur == 2
+                ? "convoi"
+                : "pc";
+
+        // ALERTE = 2
+        const alert =
+            type == 2
+                ? " alert"
+                : "";
+
+        const item =
+            document.createElement("div");
+
+        item.className =
+            `message ${side}${alert}`;
+
+        item.innerHTML = `
+            <div class="meta">
+
+                <span class="sender">
+                    ${esc(author)}
+                </span>
+
+                <span>
+                    ${formatTime(a.GDH)}
+                </span>
+
+            </div>
+
+            <div class="bubble">
+                ${esc(a.Message)}
+            </div>
+        `;
+
+        container.appendChild(item);
+    }
+
+    container.scrollTop =
+        container.scrollHeight;
 }
 
-async function addMessage(author,message,type="NORMAL"){
-  const feature={attributes:{mission_id:MISSION_ID,auteur:author,message,date_message:Date.now(),type_message:type}};
-  const json=await arcgisPost("addFeatures",{features:JSON.stringify([feature]),rollbackOnFailure:"true"});
-  const result=json.addResults?.[0];
-  if(!result?.success) throw new Error(result?.error?.description || "Ajout refusé par le service");
-  await loadMessages();
+async function addMessage(
+    author,
+    message,
+    type = "NORMAL"
+){
+
+    // Domaine Auteur
+    const authorCode =
+        author === "CONVOI-01"
+            ? 2
+            : 1;
+
+    // Domaine Types
+    let typeCode = 1;
+
+    if(type === "ALERTE"){
+        typeCode = 2;
+    }
+    else if(type === "SYSTEME"){
+        typeCode = 3;
+    }
+
+    const feature = {
+
+        attributes: {
+
+            Mission:
+                MISSION_ID,
+
+            Auteur:
+                authorCode,
+
+            Message:
+                message,
+
+            GDH:
+                Date.now(),
+
+            Types:
+                typeCode
+        }
+    };
+
+    const json = await arcgisPost(
+        "addFeatures",
+        {
+            features:
+                JSON.stringify([feature]),
+
+            rollbackOnFailure:
+                "true"
+        }
+    );
+
+    const result =
+        json.addResults?.[0];
+
+    if(!result?.success){
+
+        throw new Error(
+            result?.error?.description ||
+            "Ajout refusé par le service"
+        );
+    }
+
+    await loadMessages();
 }
 
 async function sendMessage(){
