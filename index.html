@@ -30,6 +30,7 @@
             overflow: hidden;
         }
 
+
         /* =====================================================
            HEADER
            ===================================================== */
@@ -64,21 +65,30 @@
             color: #91A7B4;
         }
 
+
         /* =====================================================
-           MESSAGES
+           ZONE DES MESSAGES
            ===================================================== */
 
         .messages {
             flex: 1;
             overflow-y: auto;
+
             padding: 10px 12px;
+
             scroll-behavior: smooth;
         }
 
+
         .message {
             width: 100%;
-            margin-bottom: 9px;
+            margin-bottom: 10px;
         }
+
+
+        /* =====================================================
+           ALIGNEMENT PC / CONVOI
+           ===================================================== */
 
         .message.pc {
             text-align: left;
@@ -88,9 +98,15 @@
             text-align: right;
         }
 
+
+        /* =====================================================
+           NOM + HEURE
+           ===================================================== */
+
         .meta {
             display: flex;
             flex-direction: column;
+
             gap: 1px;
 
             width: fit-content;
@@ -102,40 +118,53 @@
             line-height: 1.2;
         }
 
-        /* PC TRANSFERT à gauche */
+
+        /* PC TRANSFERT */
+
         .message.pc .meta {
             margin-left: 0;
             margin-right: auto;
+
             text-align: left;
             align-items: flex-start;
         }
 
-        /* CONVOI-01 à droite */
+
+        /* CONVOI */
+
         .message.convoi .meta {
             margin-left: auto;
             margin-right: 0;
+
             text-align: right;
             align-items: flex-end;
         }
-        
+
+
         .sender {
             font-weight: 700;
         }
-        
-        /* Heure */
+
+
         .time {
+            margin-top: 1px;
+
             color: #91A7B4;
+
             font-size: 9px;
             font-weight: 400;
         }
-        
+
+
         .pc .sender {
             color: #F59E0B;
         }
-        
+
+
         .convoi .sender {
             color: #39D98A;
         }
+
 
         /* =====================================================
            BULLES
@@ -143,39 +172,74 @@
 
         .bubble {
             display: inline-block;
+
             width: auto;
             min-width: 70px;
             max-width: 85%;
 
+            margin: 0;
+
             padding: 7px 10px;
+
             border-radius: 8px;
 
             font-size: 12px;
             line-height: 1.35;
 
             text-align: left;
+
             white-space: normal;
-            overflow-wrap: anywhere;
+
+            overflow-wrap: break-word;
+            word-break: normal;
         }
+
+
+        /* Position des bulles */
+
+        .message.pc .bubble {
+            margin-left: 0;
+            margin-right: auto;
+        }
+
+
+        .message.convoi .bubble {
+            margin-left: auto;
+            margin-right: 0;
+        }
+
+
+        /* Couleurs PC */
 
         .pc .bubble {
             background: #5A392C;
+
             border-left: 3px solid #F59E0B;
         }
+
+
+        /* Couleurs CONVOI */
 
         .convoi .bubble {
             background: #16463E;
+
             border-right: 3px solid #39D98A;
         }
 
+
+        /* Alertes */
+
         .message.alert .bubble {
             background: #4A3027;
+
             border-left: 3px solid #F59E0B;
         }
+
 
         .message.alert .sender {
             color: #F59E0B;
         }
+
 
         /* =====================================================
            MESSAGES SYSTEME
@@ -183,17 +247,25 @@
 
         .system {
             text-align: center;
+
             color: #91A7B4;
+
             font-size: 10px;
+
             margin: 10px 0;
         }
 
+
         .system span {
             display: inline-block;
+
             background: #10333E;
+
             border-radius: 12px;
+
             padding: 4px 9px;
         }
+
 
         /* =====================================================
            STATUS / ERREURS
@@ -201,40 +273,55 @@
 
         .status {
             display: none;
+
             padding: 7px 10px;
+
             font-size: 10px;
+
             border-top: 1px solid #174652;
         }
 
+
         .status.error {
             display: block;
+
             background: #4A2020;
             color: #FFB8B8;
         }
 
+
         .status.info {
             display: block;
+
             background: #10333E;
             color: #AFC2CE;
         }
 
+
         /* =====================================================
-           ACTIONS DEMO
+           BOUTONS DEMO
            ===================================================== */
 
         .demo-actions {
             display: flex;
+
             gap: 5px;
+
             padding: 7px 10px;
+
             border-top: 1px solid #174652;
+
             background: #002632;
         }
+
 
         .demo-actions button {
             flex: 1;
 
             border: 1px solid #28515D;
+
             background: #0C3541;
+
             color: #AFC2CE;
 
             border-radius: 5px;
@@ -246,10 +333,13 @@
             cursor: pointer;
         }
 
+
         .demo-actions button:hover {
             background: #174652;
+
             color: white;
         }
+
 
         /* =====================================================
            SAISIE
@@ -266,6 +356,7 @@
 
             border-top: 1px solid #174652;
         }
+
 
         .input-area input {
             flex: 1;
@@ -285,13 +376,16 @@
             font-size: 12px;
         }
 
+
         .input-area input::placeholder {
             color: #778E99;
         }
 
+
         .input-area input:focus {
             border-color: #39D98A;
         }
+
 
         .send {
             width: 38px;
@@ -309,13 +403,16 @@
             cursor: pointer;
         }
 
+
         .send:hover {
             background: #1693D2;
         }
 
+
         .send:disabled,
         .demo-actions button:disabled {
             opacity: .45;
+
             cursor: not-allowed;
         }
 
@@ -327,7 +424,10 @@
 
 <div class="chat">
 
-    <!-- HEADER -->
+
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
 
     <div class="header">
 
@@ -343,6 +443,7 @@
 
         </div>
 
+
         <div
             class="subtitle"
             id="subtitle">
@@ -352,22 +453,28 @@
     </div>
 
 
-    <!-- MESSAGES -->
+    <!-- =====================================================
+         MESSAGES
+         ===================================================== -->
 
     <div
         class="messages"
         id="messages">
 
         <div class="system">
+
             <span>
                 Connexion au canal opérationnel…
             </span>
+
         </div>
 
     </div>
 
 
-    <!-- STATUS -->
+    <!-- =====================================================
+         STATUS
+         ===================================================== -->
 
     <div
         class="status"
@@ -375,7 +482,9 @@
     </div>
 
 
-    <!-- ACTIONS DEMO -->
+    <!-- =====================================================
+         ACTIONS DEMO
+         ===================================================== -->
 
     <div class="demo-actions">
 
@@ -398,7 +507,9 @@
     </div>
 
 
-    <!-- SAISIE -->
+    <!-- =====================================================
+         SAISIE
+         ===================================================== -->
 
     <div class="input-area">
 
@@ -412,8 +523,7 @@
         <button
             id="send"
             class="send"
-            onclick="sendMessage()"
-        >
+            onclick="sendMessage()">
             ➤
         </button>
 
@@ -431,9 +541,14 @@
 const SERVICE_URL =
     "https://services.arcgis.com/d3voDfTFbHOCRwVR/arcgis/rest/services/Messages_Transfert/FeatureServer/0";
 
-const MISSION_ID = "TRANSFERT-001";
 
-const POLL_MS = 2000;
+const MISSION_ID =
+    "TRANSFERT-001";
+
+
+const POLL_MS =
+    2000;
+
 
 
 /* ============================================================
@@ -451,9 +566,11 @@ const params =
         window.location.search
     );
 
-const role = (
-    params.get("role") || ""
-)
+
+const role =
+    (
+        params.get("role") || ""
+    )
     .trim()
     .toLowerCase();
 
@@ -463,28 +580,36 @@ let AUTHOR;
 
 if (role === "convoi") {
 
-    AUTHOR = "CONVOI-01";
+    AUTHOR =
+        "CONVOI-01";
 
 }
 else if (role === "pc") {
 
-    AUTHOR = "PC TRANSFERT";
+    AUTHOR =
+        "PC TRANSFERT";
 
 }
 else {
 
-    AUTHOR = "ROLE NON DEFINI";
+    AUTHOR =
+        "ROLE NON DEFINI";
 
 }
+
 
 
 /* ============================================================
    VARIABLES
    ============================================================ */
 
-let lastSignature = "";
+let lastSignature =
+    "";
 
-let sending = false;
+
+let sending =
+    false;
+
 
 
 /* ============================================================
@@ -497,26 +622,6 @@ document
         `${MISSION_ID} • ${AUTHOR}`;
 
 
-/* ============================================================
-   SECURISATION TEXTE HTML
-   ============================================================ */
-
-function esc(value) {
-
-    return String(value ?? "")
-        .replace(
-            /[&<>'"]/g,
-            char => ({
-                "&": "&amp;",
-                "<": "&lt;",
-                ">": "&gt;",
-                "'": "&#39;",
-                "\"": "&quot;"
-            })[char]
-        );
-
-}
-
 
 /* ============================================================
    FORMATAGE HEURE
@@ -525,11 +630,15 @@ function esc(value) {
 function formatTime(epoch) {
 
     if (!epoch) {
+
         return "";
+
     }
+
 
     const date =
         new Date(epoch);
+
 
     return date.toLocaleTimeString(
         "fr-FR",
@@ -542,6 +651,7 @@ function formatTime(epoch) {
 }
 
 
+
 /* ============================================================
    MESSAGE STATUS
    ============================================================ */
@@ -552,10 +662,14 @@ function showStatus(
 ) {
 
     const element =
-        document.getElementById("status");
+        document.getElementById(
+            "status"
+        );
+
 
     element.className =
         `status ${type}`;
+
 
     element.textContent =
         text;
@@ -578,6 +692,7 @@ function showStatus(
 }
 
 
+
 /* ============================================================
    APPEL REST ARCGIS
    ============================================================ */
@@ -598,14 +713,20 @@ async function arcgisPost(
         await fetch(
             `${SERVICE_URL}/${path}`,
             {
-                method: "POST",
+
+                method:
+                    "POST",
 
                 headers: {
+
                     "Content-Type":
                         "application/x-www-form-urlencoded;charset=UTF-8"
+
                 },
 
-                body: body
+                body:
+                    body
+
             }
         );
 
@@ -628,6 +749,7 @@ async function arcgisPost(
         let message =
             json.error.message;
 
+
         if (
             json.error.details &&
             json.error.details.length
@@ -639,7 +761,10 @@ async function arcgisPost(
 
         }
 
-        throw new Error(message);
+
+        throw new Error(
+            message
+        );
 
     }
 
@@ -647,6 +772,7 @@ async function arcgisPost(
     return json;
 
 }
+
 
 
 /* ============================================================
@@ -672,7 +798,9 @@ async function loadMessages() {
             await arcgisPost(
                 "query",
                 {
-                    where: where,
+
+                    where:
+                        where,
 
                     outFields:
                         "OBJECTID,Mission,Auteur,Message,GDH,Types",
@@ -685,6 +813,7 @@ async function loadMessages() {
 
                     resultRecordCount:
                         "500"
+
                 }
             );
 
@@ -696,8 +825,10 @@ async function loadMessages() {
         const signature =
             features
                 .map(
+
                     feature =>
                         `${feature.attributes.OBJECTID}:${feature.attributes.GDH}`
+
                 )
                 .join("|");
 
@@ -710,6 +841,7 @@ async function loadMessages() {
             renderMessages(
                 features
             );
+
 
             lastSignature =
                 signature;
@@ -727,6 +859,7 @@ async function loadMessages() {
     }
 
 }
+
 
 
 /* ============================================================
@@ -747,20 +880,51 @@ function renderMessages(
         "";
 
 
+    /* --------------------------------------------------------
+       AUCUN MESSAGE
+       -------------------------------------------------------- */
+
     if (!features.length) {
 
-        container.innerHTML = `
-            <div class="system">
-                <span>
-                    Aucun message dans ce canal
-                </span>
-            </div>
-        `;
+        const system =
+            document.createElement(
+                "div"
+            );
+
+
+        system.className =
+            "system";
+
+
+        const text =
+            document.createElement(
+                "span"
+            );
+
+
+        text.textContent =
+            "Aucun message dans ce canal";
+
+
+        system.appendChild(
+            text
+        );
+
+
+        container.appendChild(
+            system
+        );
+
 
         return;
 
     }
 
+
+
+    /* --------------------------------------------------------
+       AFFICHAGE DES MESSAGES
+       -------------------------------------------------------- */
 
     for (
         const feature
@@ -771,12 +935,12 @@ function renderMessages(
             feature.attributes || {};
 
 
-        /* ---------------------------------------------
-           DOMAINE AUTEUR
-
-           1 = PC TRANSFERT
-           2 = CONVOI-01
-           --------------------------------------------- */
+        /*
+         * DOMAINE Auteur
+         *
+         * 1 = PC TRANSFERT
+         * 2 = CONVOI-01
+         */
 
         const author =
             attributes.Auteur == 2
@@ -784,21 +948,22 @@ function renderMessages(
                 : "PC TRANSFERT";
 
 
-        /* ---------------------------------------------
-           DOMAINE TYPE
-
-           1 = NORMAL
-           2 = ALERTE
-           3 = SYSTEME
-           --------------------------------------------- */
+        /*
+         * DOMAINE Types
+         *
+         * 1 = NORMAL
+         * 2 = ALERTE
+         * 3 = SYSTEME
+         */
 
         const type =
             attributes.Types;
 
 
-        /* ---------------------------------------------
+
+        /* ----------------------------------------------------
            MESSAGE SYSTEME
-           --------------------------------------------- */
+           ---------------------------------------------------- */
 
         if (type == 3) {
 
@@ -812,25 +977,38 @@ function renderMessages(
                 "system";
 
 
-            system.innerHTML = `
-                <span>
-                    ${esc(attributes.Message)}
-                </span>
-            `;
+            const text =
+                document.createElement(
+                    "span"
+                );
+
+
+            text.textContent =
+                String(
+                    attributes.Message || ""
+                )
+                .trim();
+
+
+            system.appendChild(
+                text
+            );
 
 
             container.appendChild(
                 system
             );
 
+
             continue;
 
         }
 
 
-        /* ---------------------------------------------
-           MESSAGE PC / CONVOI
-           --------------------------------------------- */
+
+        /* ----------------------------------------------------
+           CONTENEUR MESSAGE
+           ---------------------------------------------------- */
 
         const side =
             attributes.Auteur == 2
@@ -854,14 +1032,109 @@ function renderMessages(
             `message ${side}${alert}`;
 
 
-        item.innerHTML = `
-            <div class="meta">
-                <div class="sender">${esc(author)}</div>
-                <div class="time">${formatTime(attributes.GDH)}</div>
-            </div>
-        
-            <div class="bubble">${esc(attributes.Message)}</div>
-        `;
+
+        /* ----------------------------------------------------
+           META
+           ---------------------------------------------------- */
+
+        const meta =
+            document.createElement(
+                "div"
+            );
+
+
+        meta.className =
+            "meta";
+
+
+
+        /* Nom utilisateur */
+
+        const sender =
+            document.createElement(
+                "div"
+            );
+
+
+        sender.className =
+            "sender";
+
+
+        sender.textContent =
+            author;
+
+
+
+        /* Heure */
+
+        const time =
+            document.createElement(
+                "div"
+            );
+
+
+        time.className =
+            "time";
+
+
+        time.textContent =
+            formatTime(
+                attributes.GDH
+            );
+
+
+
+        /* ----------------------------------------------------
+           BULLE
+           ---------------------------------------------------- */
+
+        const bubble =
+            document.createElement(
+                "div"
+            );
+
+
+        bubble.className =
+            "bubble";
+
+
+        /*
+         * TRIM :
+         * supprime les espaces,
+         * tabulations et retours de ligne
+         * accidentels autour du message.
+         */
+
+        bubble.textContent =
+            String(
+                attributes.Message || ""
+            )
+            .trim();
+
+
+
+        /* ----------------------------------------------------
+           ASSEMBLAGE
+           ---------------------------------------------------- */
+
+        meta.appendChild(
+            sender
+        );
+
+
+        meta.appendChild(
+            time
+        );
+
+
+        item.appendChild(
+            meta
+        );
+
+
+        item.appendChild(
+            bubble
+        );
 
 
         container.appendChild(
@@ -871,12 +1144,16 @@ function renderMessages(
     }
 
 
-    /* Scroll automatique */
+
+    /* --------------------------------------------------------
+       SCROLL AUTOMATIQUE
+       -------------------------------------------------------- */
 
     container.scrollTop =
         container.scrollHeight;
 
 }
+
 
 
 /* ============================================================
@@ -889,9 +1166,12 @@ async function addMessage(
     type = "NORMAL"
 ) {
 
-    /* ---------------------------------------------
-       CODE DOMAINE AUTEUR
-       --------------------------------------------- */
+    /* --------------------------------------------------------
+       DOMAINE Auteur
+
+       1 = PC TRANSFERT
+       2 = CONVOI-01
+       -------------------------------------------------------- */
 
     const authorCode =
         author === "CONVOI-01"
@@ -899,30 +1179,49 @@ async function addMessage(
             : 1;
 
 
-    /* ---------------------------------------------
-       CODE DOMAINE TYPE
-       --------------------------------------------- */
 
-    let typeCode = 1;
+    /* --------------------------------------------------------
+       DOMAINE Types
+
+       1 = NORMAL
+       2 = ALERTE
+       3 = SYSTEME
+       -------------------------------------------------------- */
+
+    let typeCode =
+        1;
 
 
     if (type === "ALERTE") {
 
-        typeCode = 2;
+        typeCode =
+            2;
 
     }
     else if (
         type === "SYSTEME"
     ) {
 
-        typeCode = 3;
+        typeCode =
+            3;
 
     }
 
 
-    /* ---------------------------------------------
+
+    /* --------------------------------------------------------
+       NETTOYAGE DU MESSAGE
+       -------------------------------------------------------- */
+
+    const cleanMessage =
+        String(message || "")
+            .trim();
+
+
+
+    /* --------------------------------------------------------
        ENTITE ARCGIS
-       --------------------------------------------- */
+       -------------------------------------------------------- */
 
     const feature = {
 
@@ -935,7 +1234,7 @@ async function addMessage(
                 authorCode,
 
             Message:
-                message,
+                cleanMessage,
 
             GDH:
                 Date.now(),
@@ -948,14 +1247,16 @@ async function addMessage(
     };
 
 
-    /* ---------------------------------------------
-       AJOUT DANS FEATURE SERVICE
-       --------------------------------------------- */
+
+    /* --------------------------------------------------------
+       ADD FEATURES
+       -------------------------------------------------------- */
 
     const json =
         await arcgisPost(
             "addFeatures",
             {
+
                 features:
                     JSON.stringify(
                         [feature]
@@ -963,6 +1264,7 @@ async function addMessage(
 
                 rollbackOnFailure:
                     "true"
+
             }
         );
 
@@ -977,8 +1279,10 @@ async function addMessage(
     ) {
 
         throw new Error(
+
             result?.error?.description ||
             "Ajout refusé par le service"
+
         );
 
     }
@@ -989,6 +1293,7 @@ async function addMessage(
 }
 
 
+
 /* ============================================================
    ENVOI MANUEL
    ============================================================ */
@@ -996,7 +1301,9 @@ async function addMessage(
 async function sendMessage() {
 
     if (sending) {
+
         return;
+
     }
 
 
@@ -1006,13 +1313,18 @@ async function sendMessage() {
     ) {
 
         showStatus(
+
             "Rôle non défini. Utilisez ?role=pc ou ?role=convoi.",
+
             "error"
+
         );
+
 
         return;
 
     }
+
 
 
     const input =
@@ -1026,8 +1338,11 @@ async function sendMessage() {
 
 
     if (!text) {
+
         return;
+
     }
+
 
 
     sending =
@@ -1038,6 +1353,7 @@ async function sendMessage() {
         .getElementById("send")
         .disabled =
             true;
+
 
 
     try {
@@ -1056,8 +1372,11 @@ async function sendMessage() {
     catch (error) {
 
         showStatus(
+
             `Envoi impossible : ${error.message}`,
+
             "error"
+
         );
 
     }
@@ -1080,6 +1399,7 @@ async function sendMessage() {
 }
 
 
+
 /* ============================================================
    TOUCHE ENTREE
    ============================================================ */
@@ -1088,6 +1408,7 @@ document
     .getElementById("input")
     .addEventListener(
         "keydown",
+
         event => {
 
             if (
@@ -1097,12 +1418,14 @@ document
 
                 event.preventDefault();
 
+
                 sendMessage();
 
             }
 
         }
     );
+
 
 
 /* ============================================================
@@ -1115,7 +1438,10 @@ async function scenario(
 
     try {
 
-        /* TRAFIC */
+
+        /* ----------------------------------------------------
+           TRAFIC
+           ---------------------------------------------------- */
 
         if (
             kind ===
@@ -1123,15 +1449,22 @@ async function scenario(
         ) {
 
             await addMessage(
+
                 "PC TRANSFERT",
+
                 "Vigilance trafic signalée sur l’itinéraire. Situation en cours d’évaluation.",
+
                 "ALERTE"
+
             );
 
         }
 
 
-        /* SECURITE */
+
+        /* ----------------------------------------------------
+           SECURITE
+           ---------------------------------------------------- */
 
         if (
             kind ===
@@ -1139,15 +1472,22 @@ async function scenario(
         ) {
 
             await addMessage(
+
                 "PC TRANSFERT",
+
                 "Événement de sécurité signalé sur le secteur. Maintenez la vigilance.",
+
                 "ALERTE"
+
             );
 
         }
 
 
-        /* INCIDENT */
+
+        /* ----------------------------------------------------
+           INCIDENT
+           ---------------------------------------------------- */
 
         if (
             kind ===
@@ -1155,31 +1495,44 @@ async function scenario(
         ) {
 
             await addMessage(
+
                 "CONVOI-01",
+
                 "Incident véhicule. Immobilisation temporaire.",
+
                 "ALERTE"
+
             );
 
 
             await new Promise(
+
                 resolve =>
                     setTimeout(
                         resolve,
                         600
                     )
+
             );
 
 
             await addMessage(
+
                 "PC TRANSFERT",
+
                 "Bien reçu. Mission placée en attente. Maintenez la position.",
+
                 "ALERTE"
+
             );
 
         }
 
 
-        /* REPRISE */
+
+        /* ----------------------------------------------------
+           REPRISE
+           ---------------------------------------------------- */
 
         if (
             kind ===
@@ -1187,25 +1540,35 @@ async function scenario(
         ) {
 
             await addMessage(
+
                 "CONVOI-01",
+
                 "Incident résolu. Véhicule opérationnel.",
+
                 "NORMAL"
+
             );
 
 
             await new Promise(
+
                 resolve =>
                     setTimeout(
                         resolve,
                         600
                     )
+
             );
 
 
             await addMessage(
+
                 "PC TRANSFERT",
+
                 "Reçu. Reprise du transfert autorisée.",
+
                 "NORMAL"
+
             );
 
         }
@@ -1214,13 +1577,17 @@ async function scenario(
     catch (error) {
 
         showStatus(
+
             `Scénario impossible : ${error.message}`,
+
             "error"
+
         );
 
     }
 
 }
+
 
 
 /* ============================================================
