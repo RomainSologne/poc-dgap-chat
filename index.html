@@ -146,6 +146,7 @@
             width: auto;
             min-width: 70px;
             max-width: 85%;
+
             padding: 7px 10px;
             border-radius: 8px;
 
@@ -153,7 +154,7 @@
             line-height: 1.35;
 
             text-align: left;
-            white-space: pre-wrap;
+            white-space: normal;
             overflow-wrap: anywhere;
         }
 
@@ -854,23 +855,12 @@ function renderMessages(
 
 
         item.innerHTML = `
-        
             <div class="meta">
-        
-                <div class="sender">
-                    ${esc(author)}
-                </div>
-        
-                <div class="time">
-                    ${formatTime(attributes.GDH)}
-                </div>
-        
+                <div class="sender">${esc(author)}</div>
+                <div class="time">${formatTime(attributes.GDH)}</div>
             </div>
         
-            <div class="bubble">
-                ${esc(attributes.Message)}
-            </div>
-        
+            <div class="bubble">${esc(attributes.Message)}</div>
         `;
 
 
