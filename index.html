@@ -90,26 +90,49 @@
 
         .meta {
             display: flex;
-            justify-content: space-between;
-            gap: 12px;
-            margin-bottom: 3px;
-            font-size: 10px;
-            color: #91A7B4;
+            flex-direction: column;
+            gap: 1px;
+
+            width: fit-content;
             max-width: 85%;
+
+            margin-bottom: 4px;
+
+            font-size: 10px;
+            line-height: 1.2;
         }
 
+        /* PC TRANSFERT à gauche */
+        .message.pc .meta {
+            margin-left: 0;
+            margin-right: auto;
+            text-align: left;
+            align-items: flex-start;
+        }
+
+        /* CONVOI-01 à droite */
         .message.convoi .meta {
             margin-left: auto;
+            margin-right: 0;
+            text-align: right;
+            align-items: flex-end;
         }
-
+        
         .sender {
             font-weight: 700;
         }
-
+        
+        /* Heure */
+        .time {
+            color: #91A7B4;
+            font-size: 9px;
+            font-weight: 400;
+        }
+        
         .pc .sender {
             color: #F59E0B;
         }
-
+        
         .convoi .sender {
             color: #39D98A;
         }
@@ -831,24 +854,23 @@ function renderMessages(
 
 
         item.innerHTML = `
-
+        
             <div class="meta">
-
-                <span class="sender">
+        
+                <div class="sender">
                     ${esc(author)}
-                </span>
-
-                <span>
+                </div>
+        
+                <div class="time">
                     ${formatTime(attributes.GDH)}
-                </span>
-
+                </div>
+        
             </div>
-
-
+        
             <div class="bubble">
                 ${esc(attributes.Message)}
             </div>
-
+        
         `;
 
 
